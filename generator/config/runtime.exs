@@ -21,9 +21,9 @@ config :generator,
   coordinator_url: System.get_env("COORDINATOR_URL", "ws://localhost:9696"),
   network_device: System.get_env("NETWORK_DEVICE")
 
-scripts_path = System.get_env("SCRIPTS_PATH") || "../scripts/config"
+scripts_path = System.get_env("SCRIPTS_PATH") || "../scripts"
 
-custom_scripts_config = Path.expand(Path.join(scripts_path, "runtime.exs"), __DIR__)
+custom_scripts_config = Path.expand(Path.join([scripts_path, "config", "runtime.exs"]), __DIR__)
 
 if File.exists?(custom_scripts_config) do
   Code.eval_file(custom_scripts_config)
