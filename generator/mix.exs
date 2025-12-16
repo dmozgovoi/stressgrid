@@ -45,12 +45,6 @@ defmodule Stressgrid.Generator.MixProject do
       end
 
     Application.put_env(:stressgrid, :custom_deps, Keyword.get(bindings, :deps, []))
-
-    Application.put_env(
-      :stressgrid,
-      :supervisor_children,
-      Keyword.get(bindings, :supervisor_children, [])
-    )
   end
 
   defp elixirc_paths(), do: ["lib", scripts_path()]
