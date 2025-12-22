@@ -14,7 +14,7 @@ defmodule Stressgrid.Coordinator.MixProject do
 
   def application do
     [
-      extra_applications: [:logger, :runtime_tools] ++ extra_applications(Mix.env()),
+      extra_applications: [:logger, :runtime_tools, :os_mon] ++ extra_applications(Mix.env()),
       mod: {Stressgrid.Coordinator.Application, []}
     ]
   end

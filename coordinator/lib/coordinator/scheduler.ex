@@ -36,6 +36,7 @@ defmodule Stressgrid.Coordinator.Scheduler do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)
   end
 
+  @impl true
   def init(_) do
     :ok = Management.notify_all(%{"run" => nil})
 
@@ -70,6 +71,7 @@ defmodule Stressgrid.Coordinator.Scheduler do
     end
   end
 
+  @impl true
   def handle_info(
         {:run_state_change, state, remaining_ms},
         %Scheduler{run: run} = scheduler

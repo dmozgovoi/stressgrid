@@ -41,6 +41,12 @@ config :coordinator, :telemetry,
       System.get_env("COORDINATOR_TELEMETRY_POOL_SIZE", "#{System.schedulers_online()}")
     )
 
+config :coordinator, :live_dashboard,
+  auth_username: System.get_env("LIVE_DASHBOARD_AUTH_USERNAME", "stressgrid"),
+  auth_password:
+    System.get_env("LIVE_DASHBOARD_AUTH_PASSWORD") ||
+      raise("expected the LIVE_DASHBOARD_AUTH_PASSWORD environment variable to be set")
+
 config :coordinator,
   generators_port: String.to_integer(System.get_env("GENERATORS_PORT", "9696")),
   report_interval_seconds: String.to_integer(System.get_env("REPORT_INTERVAL_SECONDS", "60")),
