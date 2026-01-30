@@ -7,7 +7,6 @@ defmodule Stressgrid.Generator.Connection do
   alias Stressgrid.Generator.{Connection, Cohort, Device, Histogram, TelemetryStore}
 
   @conn_timeout 5_000
-  @report_interval 1_000
   @snmp_known_counters %{
     "Tcp.RetransSegs" => :tcp_retr_seg_error,
     "Tcp.InErrs" => :tcp_bad_seg_error
@@ -147,7 +146,7 @@ defmodule Stressgrid.Generator.Connection do
     Logger.info("Connected")
 
     Process.cancel_timer(timeout_ref)
-    Process.send_after(self(), :report, @report_interval)
+    Process.send_after(self(), :report, report_interval())
 
     {:noreply, %{connection | timeout_ref: nil}}
   end
@@ -192,7 +191,7 @@ defmodule Stressgrid.Generator.Connection do
 
   @impl true
   def handle_info(:report, %Connection{prepare_script_error: prepare_script_error} = connection) do
-    Process.send_after(self(), :report, @report_interval)
+    Process.send_after(self(), :report, report_interval())
 
     {first_script_error, active_device_number, aggregate_hists, aggregate_scalars} =
       Supervisor.which_children(Cohort.Supervisor)
@@ -679,5 +678,9 @@ defmodule Stressgrid.Generator.Connection do
       _ ->
         :ok
     end
+  end
+  
+  defp report_interval do
+    Application.get_env(:generator, :connection_report_interval_ms)
   end
 end
